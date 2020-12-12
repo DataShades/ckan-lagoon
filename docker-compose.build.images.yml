@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+
+  ckan-base-lagoon:
+  # The CKAN base image for uploading to DockerHub
+    container_name: ckan-base-lagoon
+    build:
+      context: images/ckan-base
+      dockerfile: Dockerfile-ckan-base
+    ports:
+      - "8801:8801"
+    environment:
+      # Defaults work with linked containers, change to use own Postgres, SolR, Redis or Datapusher
+      - CKAN_SQLALCHEMY_URL=postgresql://ckan:${POSTGRES_PASSWORD}@pg_db/ckan
+      - CKAN_DATASTORE_WRITE_URL=postgresql://ckan:${POSTGRES_PASSWORD}@pg_db/datastore
+      - CKAN_DATASTORE_READ_URL=postgresql://datastore_ro:${DATASTORE_READONLY_PASSWORD}@pg_db/datastore
+      - CKAN_SOLR_URL=http://solr:8983/solr/ckan
+      - CKAN_REDIS_URL=redis://redis:6379/0
+      - CKAN_SITE_URL=${CKAN_SITE_URL}
+      - CKAN_SITE_TITLE=${CKAN_SITE_TITLE}
+      - CKAN_MAX_UPLOAD_SIZE_MB=${CKAN_MAX_UPLOAD_SIZE_MB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
+      - CKAN_PORT=${CKAN_PORT}
+
