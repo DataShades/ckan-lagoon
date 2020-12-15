@@ -67,9 +67,6 @@ RUN pip3 install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
 RUN pip3 install supervisor && \
 mkdir /etc/supervisord.d
 
-# Copy all setup files
-COPY setup ${APP_DIR}
-
 # Create a local user and group to run the app
 RUN addgroup -g 92 -S ckan && \
     adduser -u 92 -h /srv/app -H -D -S -G ckan ckan

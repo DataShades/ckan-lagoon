@@ -35,10 +35,9 @@ then
       exit 1
     fi
   else
+    echo "[start_ckan.sh] Starting supervisord."
     # Start supervisord
-    supervisord --configuration /etc/supervisord.conf &
-    # Start uwsgi
-    sudo -u ckan -EH uwsgi -i ckan-uwsgi.ini
+    supervisord --configuration /etc/supervisord.conf
   fi
 else
   echo "[prerun] failed...not starting CKAN."

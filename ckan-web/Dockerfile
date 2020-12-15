@@ -7,7 +7,11 @@ ARG TZ
 RUN echo $TZ > /etc/timezone
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
 
-COPY setup/supervisord.conf /etc/supervisord.d/supervisord.conf
+# Copy all setup files
+COPY setup ${APP_DIR}
+
+COPY setup/supervisord.conf /etc/supervisord.conf
+COPY setup/supervisor.uwsgi.conf /etc/supervisord.d/supervisor.uwsgi.conf
 
 # Create local storage folder
 RUN mkdir -p $CKAN_STORAGE_PATH && \
