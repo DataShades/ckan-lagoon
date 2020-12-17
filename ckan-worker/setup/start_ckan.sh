@@ -16,6 +16,48 @@ then
     done
 fi
 
+# Ensure correct permissions for CKAN storage
+mkdir -p ${CKAN_STORAGE_PATH}/storage/uploads/user && mkdir -p ${CKAN_STORAGE_PATH}/resources
+chown -R ckan:ckan ${CKAN_STORAGE_PATH} ${APP_DIR} && chmod -R 777 ${CKAN_STORAGE_PATH}
+
+# Set site URL
+crudini --set  ${CKAN_INI} app:main ckan.site_url ${CKAN_SITE_URL}
+
+# Set global theme
+crudini --set  ${CKAN_INI} app:main ckan.site_title ${CKAN_SITE_TITLE}
+
+# Set default locale
+crudini --set  ${CKAN_INI} app:main ckan.locale_default en_AU
+
+# Configure global search
+crudini --set  ${CKAN_INI} app:main ckan.search.show_all_types datasets
+
+# Enable Datastore and XLoader extension in CKAN configuration
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins datastore
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins xloader
+
+# Set up datastore permissions
+ckan datastore set-permissions | psql "${CKAN_SQLALCHEMY_URL}"
+
+# Set XLoader database URI
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckanext.xloader.jobs_db.uri ${CKAN_SQLALCHEMY_URL}
+
+### Add custom CKAN extensions to configuration
+
+# ckanext-scheming
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_organizations
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_datasets
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_groups
+
+# ckanext-harvest
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins harvest
+
+# ckanext-syndicate
+#crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins syndicate
+#ckan syndicate init
+
+# Merge extension configuration options into main CKAN config file.
+crudini --merge ${CKAN_INI} < ${APP_DIR}/extension-configs.ini
 
 # Check whether http basic auth password protection is enabled and enable basicauth routing on uwsgi respecfully
 if [ $? -eq 0 ]
@@ -27,9 +69,8 @@ then
       # Generate htpasswd file for basicauth
       htpasswd -d -b -c /srv/app/.htpasswd $HTPASSWD_USER $HTPASSWD_PASSWORD
       # Start supervisord
-      supervisord --configuration /etc/supervisord.conf &
-      # Start uwsgi with basicauth
-      sudo -u ckan -EH uwsgi -i ckan-uwsgi.ini
+      echo "[start_ckan.sh] Starting supervisord."
+      supervisord --configuration /etc/supervisord.conf
     else
       echo "Missing HTPASSWD_USER or HTPASSWD_PASSWORD environment variables. Exiting..."
       exit 1

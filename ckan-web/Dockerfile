@@ -7,11 +7,19 @@ ARG TZ
 RUN echo $TZ > /etc/timezone
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
 
+# Install crudini for configuration management
+ADD https://raw.githubusercontent.com/pixelb/crudini/master/crudini /usr/local/bin/crudini
+RUN pip install iniparse && \
+    chmod +x /usr/local/bin/crudini
+    
 # Copy all setup files
 COPY setup ${APP_DIR}
 
 COPY setup/supervisord.conf /etc/supervisord.conf
 COPY setup/supervisor.uwsgi.conf /etc/supervisord.d/supervisor.uwsgi.conf
+
+# Copy templated extension configuration
+COPY setup/extension-configs.ini ${APP_DIR}/extension-configs.ini
 
 # Create local storage folder
 RUN mkdir -p $CKAN_STORAGE_PATH && \
