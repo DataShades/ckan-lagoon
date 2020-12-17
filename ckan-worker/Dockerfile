@@ -34,6 +34,10 @@ COPY setup/supervisor.harvest.conf /etc/supervisord.d/supervisor.harvest.conf
 # Copy templated extension configuration
 COPY setup/extension-configs.ini $(APP_DIR}/extension-configs.ini
 
+# Create local storage folder
+RUN mkdir -p $CKAN_STORAGE_PATH && \
+    chown -R ckan:ckan $CKAN_STORAGE_PATH
+    
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
 

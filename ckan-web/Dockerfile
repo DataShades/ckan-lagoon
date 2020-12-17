@@ -7,6 +7,17 @@ ARG TZ
 RUN echo $TZ > /etc/timezone
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
 
+# Install CKAN extensions
+RUN pip3 install -e 'git+https://github.com/DataShades/ckanext-xloader@py3#egg=ckanext-xloader' && \
+    pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
+    pip3 install -U requests[security] && \
+    pip3 install -e 'git+https://github.com/DataShades/ckanext-harvest.git@py3#egg=ckanext-harvest' && \
+    pip3 install -r ${APP_DIR}/src/ckanext-harvest/pip-requirements.txt && \
+    pip3 install -e 'git+https://github.com/DataShades/ckanext-syndicate@py3#egg=ckanext-syndicate' && \
+    pip3 install -r ${APP_DIR}/src/ckanext-syndicate/requirements.txt && \
+    pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming' && \
+    pip3 install -r ${APP_DIR}/src/ckanext-scheming/requirements.txt
+    
 # Install crudini for configuration management
 ADD https://raw.githubusercontent.com/pixelb/crudini/master/crudini /usr/local/bin/crudini
 RUN pip install iniparse && \

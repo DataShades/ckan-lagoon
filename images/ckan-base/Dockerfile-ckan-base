@@ -24,6 +24,7 @@ RUN apk update \
     gettext \ 
     libpq \
     postgresql-dev \
+    postgresql-client \
     gcc \
     make \
     g++ \

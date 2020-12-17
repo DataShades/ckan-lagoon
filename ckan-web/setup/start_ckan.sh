@@ -34,23 +34,23 @@ crudini --set  ${CKAN_INI} app:main ckan.search.show_all_types datasets
 
 # Enable Datastore and XLoader extension in CKAN configuration
 crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins datastore
-#crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins xloader
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins xloader
 
 # Set up datastore permissions
 ckan datastore set-permissions | psql "${CKAN_SQLALCHEMY_URL}"
 
 # Set XLoader database URI
-#crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckanext.xloader.jobs_db.uri ${CKAN_SQLALCHEMY_URL}
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckanext.xloader.jobs_db.uri ${CKAN_SQLALCHEMY_URL}
 
 ### Add custom CKAN extensions to configuration
 
 # ckanext-scheming
-#crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_organizations
-#crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_datasets
-#crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_groups
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_organizations
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_datasets
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_groups
 
 # ckanext-harvest
-#crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins harvest
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins harvest
 
 # ckanext-syndicate
 #crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins syndicate
