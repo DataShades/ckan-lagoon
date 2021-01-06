@@ -2,6 +2,16 @@ version: "3"
 
 services:
     
+  nginx:
+    container_name: nginx
+    build:
+      context: nginx/
+      dockerfile: Dockerfile
+    links:
+      - ckan-web
+    ports:
+      - "0.0.0.0:80:80"
+
   ckan-worker:
     container_name: ckan-worker
     build:
