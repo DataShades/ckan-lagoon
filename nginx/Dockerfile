@@ -1,4 +1,5 @@
-FROM nginx:alpine
+ARG IMAGE_REPO
+FROM ${IMAGE_REPO:-uselagoon}/nginx
 
 ENV NGINX_DIR=/etc/nginx
 
