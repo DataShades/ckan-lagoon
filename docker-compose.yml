@@ -12,34 +12,34 @@ services:
     ports:
       - "0.0.0.0:80:80"
 
-  ckan-worker:
-    container_name: ckan-worker
-    build:
-      context: ckan-worker/
-      dockerfile: Dockerfile
-      args:
-        - TZ=${TZ}
-    env_file:
-      - .env
-    links:
-      - db
-      - solr
-      - redis
-    ports:
-      - "8800:8800"
-    environment:
+  #ckan-worker:
+  #  container_name: ckan-worker
+  #  build:
+  #    context: ckan-worker/
+  #    dockerfile: Dockerfile
+  #    args:
+  #      - TZ=${TZ}
+  #  env_file:
+  #    - .env
+  #  links:
+  #    - db
+  #    - solr
+  #    - redis
+  #  ports:
+  #    - "8800:8800"
+  #  environment:
       # Defaults work with linked containers, change to use own Postgres, SolR, Redis or Datapusher
-      - CKAN_SQLALCHEMY_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/ckan
-      - CKAN_DATASTORE_WRITE_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/datastore
-      - CKAN_DATASTORE_READ_URL=postgresql://datastore_ro:${DATASTORE_READONLY_PASSWORD}@db/datastore
-      - CKAN_SOLR_URL=http://solr:8983/solr/ckan
-      - CKAN_REDIS_URL=redis://redis:6379/0
-      - CKAN_SITE_URL=${CKAN_SITE_URL}
-      - CKAN_SITE_TITLE=${CKAN_SITE_TITLE}
-      - CKAN_MAX_UPLOAD_SIZE_MB=${CKAN_MAX_UPLOAD_SIZE_MB}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
-      - CKAN_PORT=${CKAN_PORT}
+  #    - CKAN_SQLALCHEMY_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/ckan
+  #    - CKAN_DATASTORE_WRITE_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/datastore
+  #    - CKAN_DATASTORE_READ_URL=postgresql://datastore_ro:${DATASTORE_READONLY_PASSWORD}@db/datastore
+  #    - CKAN_SOLR_URL=http://solr:8983/solr/ckan
+  #    - CKAN_REDIS_URL=redis://redis:6379/0
+  #    - CKAN_SITE_URL=${CKAN_SITE_URL}
+  #    - CKAN_SITE_TITLE=${CKAN_SITE_TITLE}
+  #    - CKAN_MAX_UPLOAD_SIZE_MB=${CKAN_MAX_UPLOAD_SIZE_MB}
+  #    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #    - DS_RO_PASS=${DATASTORE_READONLY_PASSWORD}
+  #    - CKAN_PORT=${CKAN_PORT}
   
   ckan-web:
     container_name: ckan-web
@@ -51,7 +51,7 @@ services:
     env_file:
       - .env
     links:
-      - ckan-worker    
+      #- ckan-worker    
       - db
       - solr
       - redis
