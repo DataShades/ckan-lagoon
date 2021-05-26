@@ -53,8 +53,8 @@ crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins scheming_g
 crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins harvest
 
 # ckanext-syndicate
-#crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins syndicate
-#ckan syndicate init
+crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins syndicate
+ckan syndicate init
 
 # Merge extension configuration options into main CKAN config file.
 crudini --merge ${CKAN_INI} < ${APP_DIR}/extension-configs.ini

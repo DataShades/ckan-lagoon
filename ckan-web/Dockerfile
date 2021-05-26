@@ -12,8 +12,9 @@ ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 # Install CKAN extensions
 RUN pip3 install -e 'git+https://github.com/DataShades/ckanext-xloader@py3#egg=ckanext-xloader' && \
     pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
-    pip3 install -U requests[security] && \
-    pip3 install -e 'git+https://github.com/DataShades/ckanext-harvest.git@py3#egg=ckanext-harvest' && \
+    pip3 install -U requests[security]
+
+RUN pip3 install -e 'git+https://github.com/DataShades/ckanext-harvest.git@py3#egg=ckanext-harvest' && \
     pip3 install -r ${APP_DIR}/src/ckanext-harvest/pip-requirements.txt && \
     pip3 install -e 'git+https://github.com/DataShades/ckanext-syndicate@py3#egg=ckanext-syndicate' && \
     pip3 install -r ${APP_DIR}/src/ckanext-syndicate/requirements.txt && \
@@ -29,6 +30,8 @@ COPY setup ${APP_DIR}
 
 COPY setup/supervisord.conf /etc/supervisord.conf
 COPY setup/supervisor.uwsgi.conf /etc/supervisord.d/supervisor.uwsgi.conf
+COPY setup/supervisor.worker.conf /etc/supervisord.d/supervisor.worker.conf
+COPY setup/supervisor.harvest.conf /etc/supervisord.d/supervisor.harvest.conf
 
 # Copy templated extension configuration
 COPY setup/extension-configs.ini ${APP_DIR}/extension-configs.ini
