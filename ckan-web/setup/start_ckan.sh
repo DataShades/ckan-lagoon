@@ -55,12 +55,15 @@ crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins harvest
 # ckanext-syndicate
 crudini --set --list --list-sep=' ' ${CKAN_INI} app:main ckan.plugins syndicate
 ckan syndicate init
+<<<<<<< Updated upstream
 
 # logging changes - set to DEBUG for all
 crudini --set  ${CKAN_INI} logger_root level DEBUG
 crudini --set  ${CKAN_INI} logger_werkzeug level DEBUG
 crudini --set  ${CKAN_INI} logger_ckan level DEBUG
 crudini --set  ${CKAN_INI} logger_ckanext level DEBUG
+=======
+>>>>>>> Stashed changes
 
 # Merge extension configuration options into main CKAN config file.
 crudini --merge ${CKAN_INI} < ${APP_DIR}/extension-configs.ini
