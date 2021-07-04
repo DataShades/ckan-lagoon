@@ -10,10 +10,11 @@ RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
 # Install CKAN extensions
-RUN pip3 install -e 'git+https://github.com/DataShades/ckanext-xloader@py3#egg=ckanext-xloader' && \
+RUN pip3 install -e 'git+https://github.com/ckan/ckanext-xloader.git@master#egg=ckanext-xloader' && \ 
     pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
-    pip3 install -U requests[security] && \
-    pip3 install -e 'git+https://github.com/DataShades/ckanext-harvest.git@py3#egg=ckanext-harvest' && \
+    pip3 install -U requests[security]
+
+RUN pip3 install -e 'git+https://github.com/ckan/ckanext-harvest.git@master#egg=ckanext-harvest' && \
     pip3 install -r ${APP_DIR}/src/ckanext-harvest/pip-requirements.txt && \
     pip3 install -e 'git+https://github.com/DataShades/ckanext-syndicate@py3#egg=ckanext-syndicate' && \
     pip3 install -r ${APP_DIR}/src/ckanext-syndicate/requirements.txt && \
