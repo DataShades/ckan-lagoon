@@ -28,11 +28,7 @@ services:
   #  ports:
   #    - "8800:8800"
   #  environment:
-<<<<<<< Updated upstream
-      # Defaults work with linked containers, change to use own Postgres, SolR, Redis or Datapusher
-=======
-  #    # Defaults work with linked containers, change to use own Postgres, SolR, Redis or Datapusher
->>>>>>> Stashed changes
+       # Defaults work with linked containers, change to use own Postgres, SolR, Redis or Datapusher
   #    - CKAN_SQLALCHEMY_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/ckan
   #    - CKAN_DATASTORE_WRITE_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/datastore
   #    - CKAN_DATASTORE_READ_URL=postgresql://datastore_ro:${DATASTORE_READONLY_PASSWORD}@db/datastore
@@ -55,11 +51,7 @@ services:
     env_file:
       - .env
     links:
-<<<<<<< Updated upstream
       #- ckan-worker    
-=======
-    #  - ckan-worker    
->>>>>>> Stashed changes
       - db
       - solr
       - redis
